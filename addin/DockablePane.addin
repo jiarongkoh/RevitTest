@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+       <Name>DockablePane</Name>
+       <FullClassName>DockablePane.SetupDockablePane</FullClassName>
+       <Text>Dockable Pane</Text> 
+       <Description>Sample test project for dockable pane</Description>
+       <Assembly>C:\Users\Jia Rong\Desktop\VSProjects\DockablePane\bin\Debug\DockablePane.dll</Assembly>
+       <AddInId>502fe383-2648-4e98-adf8-5e6047f9dc37</AddInId>
+    <VendorId>ADSK</VendorId>
+    <VendorDescription>Autodesk, Inc, www.autodesk.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>

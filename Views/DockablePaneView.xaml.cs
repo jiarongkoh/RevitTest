@@ -10,28 +10,37 @@ namespace DockablePane
     /// <summary>
     /// Interaction logic for ViewPane.xaml
     /// </summary>
-    public partial class ViewPane : Page, IDisposable, IDockablePaneProvider
+    public partial class DockablePaneView : Page, IDisposable, IDockablePaneProvider
     {
-        TestRaise testREvent;
-        ExternalEvent TestRaiseEvent;
+        GetElementsEvent getElementsEvent;
+        ExternalEvent GetElementsExternalEvent;
 
-        public ViewPane()
+        public DockablePaneView()
         {
             InitializeComponent();
 
             //To call RevitAPI, need to invoke throught ExternalEvent
-            testREvent = new TestRaise();
-            TestRaiseEvent = ExternalEvent.Create(testREvent);
+            getElementsEvent = new GetElementsEvent();
+            GetElementsExternalEvent = ExternalEvent.Create(getElementsEvent);
         }
 
+        /// <summary>
+        /// IDisposable interface method
+        /// </summary>
         public void Dispose()
         {
             this.Dispose();
         }
 
+        /// <summary>
+        /// IDockablePaneProvider interface method
+        /// </summary>
+        /// <param name="data"></param>
         public void SetupDockablePane(DockablePaneProviderData data)
         {
             data.FrameworkElement = this as FrameworkElement;
+
+            //Set visibility to false so that dockablePane is not shown on launch
             //data.VisibleByDefault = false;
 
             data.InitialState = new DockablePaneState
@@ -42,7 +51,8 @@ namespace DockablePane
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            TestRaiseEvent.Raise();
+            //Perform GetElements Event function
+            GetElementsExternalEvent.Raise();
         }
     }
 }

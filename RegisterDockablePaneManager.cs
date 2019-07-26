@@ -23,11 +23,10 @@ namespace DockablePane
 
         public Result Register(UIApplication application)
         {
-
             try
             {
                 var data = new DockablePaneProviderData();
-                var pane = new ViewPane();
+                var pane = new DockablePaneView();
                 data.FrameworkElement = pane as FrameworkElement;
 
                 var dpid = new DockablePaneId(DockablePaneIdentifierManager.GetPanelIdentifier());
@@ -40,7 +39,6 @@ namespace DockablePane
                 Debug.WriteLine(ex);
                 return Result.Failed;
             }
-           
         }
     }
 }

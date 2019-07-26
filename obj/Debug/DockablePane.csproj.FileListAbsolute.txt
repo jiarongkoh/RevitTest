@@ -7,5 +7,5 @@ C:\Users\Jia Rong\Desktop\VSProjects\DockablePane\obj\Debug\DockablePane.pdb
 C:\Users\Jia Rong\Desktop\VSProjects\DockablePane\obj\Debug\DockablePane_MarkupCompile.cache
 C:\Users\Jia Rong\Desktop\VSProjects\DockablePane\obj\Debug\DockablePane_MarkupCompile.lref
 C:\Users\Jia Rong\Desktop\VSProjects\DockablePane\obj\Debug\DockablePane.g.resources
-C:\Users\Jia Rong\Desktop\VSProjects\DockablePane\obj\Debug\ViewPane.g.cs
-C:\Users\Jia Rong\Desktop\VSProjects\DockablePane\obj\Debug\ViewPane.baml
+C:\Users\Jia Rong\Desktop\VSProjects\DockablePane\obj\Debug\Views\DockablePaneView.g.cs
+C:\Users\Jia Rong\Desktop\VSProjects\DockablePane\obj\Debug\Views\DockablePaneView.baml
