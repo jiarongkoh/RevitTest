@@ -41,7 +41,7 @@ namespace DockablePane
             data.FrameworkElement = this as FrameworkElement;
 
             //Set visibility to false so that dockablePane is not shown on launch
-            //data.VisibleByDefault = false;
+            data.VisibleByDefault = false;
 
             data.InitialState = new DockablePaneState
             {

@@ -29,14 +29,14 @@ namespace DockablePane
         Result IExternalApplication.OnStartup(UIControlledApplication application)
         {
             //Create a ribbon panel at the top
-            RibbonPanel ribbonPanel = application.CreateRibbonPanel("Dockable Pane");
+            RibbonPanel ribbonPanel = application.CreateRibbonPanel("Compliance Checks");
 
             //Get url to the DockablePane.dll
             string assemblyPath = Assembly.GetExecutingAssembly().Location;
             Debug.WriteLine(assemblyPath);
 
             //Create a push button and add to ribbon panel
-            PushButtonData buttonData = new PushButtonData("launchPane", "Launch Pane", assemblyPath, "DockablePane.LaunchDockablePaneCommand");
+            PushButtonData buttonData = new PushButtonData("launchPane", "Launch", assemblyPath, "DockablePane.LaunchDockablePaneCommand");
             PushButton pushButton = ribbonPanel.AddItem(buttonData) as PushButton;
 
             //Setup button image

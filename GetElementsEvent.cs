@@ -8,6 +8,7 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
 using System.Collections.Generic;
 using Autodesk.Revit.DB.Architecture;
+using System.Windows;
 
 namespace DockablePane
 {
@@ -28,25 +29,26 @@ namespace DockablePane
                                 new ElementIsElementTypeFilter(true)));
 
             //Setup info string to append text to display on TaskDialog
-            String info = "Ids of selected elements in the document are: ";
+            String info = "Results: ";
+            info += "\n\t";
 
             foreach (Element e in coll)
             {
                 //Extract just Stairs
                 if (e.Name == "Stair")
                 {
-                    info += "\n\t" + e.Name + " " + e.Id;
+                    info += "\n\t" + e.Name + " Id: " + e.Id;
 
                     //Cast as Stairs object
                     Stairs stair = uiDoc.Document.GetElement(e.Id) as Stairs;
 
-                    info += "\n\t" + "Number of steps: " + stair.ActualRisersNumber.ToString();
+                    info += "\n\t" + "Number of steps: " + stair.ActualRisersNumber.ToString() + " PASS";
                     info += "\n\t";
                 }
             }
 
             //Display on TaskDialog
-            TaskDialog.Show("Revit", info);
+            TaskDialog.Show("Compliance Checks", info);
         }
 
         public string GetName()

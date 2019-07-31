@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DockablePane"
              mc:Ignorable="d" 
              d:DesignHeight="800" 
-                Background="WhiteSmoke" Width="383.5"
+                Background="WhiteSmoke" Width="450"
       FontFamily="Segoe UI"
                 >
 
@@ -28,7 +28,7 @@
     </Page.Resources>
     <Border Padding="20">
         <StackPanel >
-            <TextBlock Text="Results" 
+            <TextBlock Text="Code" 
                        FontSize="28" 
                        FontWeight="Bold"
                        TextWrapping="WrapWithOverflow"/>
@@ -53,7 +53,7 @@
                        Foreground="#4A4A4A"
                        TextWrapping="WrapWithOverflow"/>
 
-            <TextBlock Text="Except for spiral staircases, intermediate landing required between floor levels at not more than 18 risers." 
+            <TextBlock Text="Not more than 18 risers." 
                        FontSize="18" 
                        FontWeight="Regular"
                        Foreground="#4A4A4A"
@@ -63,7 +63,7 @@
             <Grid >
                 <Button Style="{StaticResource ButtonWithRadius}"
                         x:Name="TestButton" 
-                        Content="Test" 
+                        Content="Run Checks" 
                         Height="36" 
                         FontSize="18" 
                         FontWeight="Medium"
@@ -72,7 +72,6 @@
                         Background="#007AFF"
                         />
             </Grid>
-
 
         </StackPanel>
     </Border>

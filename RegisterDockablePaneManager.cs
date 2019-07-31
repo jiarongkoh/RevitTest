@@ -30,7 +30,7 @@ namespace DockablePane
                 data.FrameworkElement = pane as FrameworkElement;
 
                 var dpid = new DockablePaneId(DockablePaneIdentifierManager.GetPanelIdentifier());
-                application.RegisterDockablePane(dpid, "Pane", pane as IDockablePaneProvider);
+                application.RegisterDockablePane(dpid, "Compliance Checks", pane as IDockablePaneProvider);
                 return Result.Succeeded;
             }
 
