@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 
 using Autodesk.Revit;
@@ -23,27 +23,21 @@ namespace DockablePane
             //Get all elements in active document
             //https://thebuildingcoder.typepad.com/blog/2010/06/filter-for-all-elements.html
             FilteredElementCollector coll = new FilteredElementCollector(uiDoc.Document);
-            coll.WherePasses(new LogicalOrFilter(
-                                new ElementIsElementTypeFilter(false),
-                                new ElementIsElementTypeFilter(true)));
+            coll.OfClass(typeof(Stairs));
 
             //Setup info string to append text to display on TaskDialog
             String info = "Ids of selected elements in the document are: ";
 
-            foreach (Element e in coll)
+            foreach (Stairs s in coll)
             {
-                //Extract just Stairs
-                if (e.Name == "Stair")
-                {
-                    info += "\n\t" + e.Name + " " + e.Id;
+                info += "\n\t" + s.Name + " " + s.Id;
 
                     //Cast as Stairs object
-                    Stairs stair = uiDoc.Document.GetElement(e.Id) as Stairs;
+                Stairs stair = uiDoc.Document.GetElement(s.Id) as Stairs;
 
                     info += "\n\t" + "Number of steps: " + stair.ActualRisersNumber.ToString();
                     info += "\n\t";
                 }
-            }
 
             //Display on TaskDialog
             TaskDialog.Show("Revit", info);
