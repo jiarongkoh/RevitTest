@@ -9,6 +9,9 @@ using Autodesk.Revit.Attributes;
 using System.Collections.Generic;
 using Autodesk.Revit.DB.Architecture;
 
+using System.Collections.ObjectModel;
+using System.Windows;
+
 namespace DockablePane
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
@@ -40,18 +43,23 @@ namespace DockablePane
             }
 
             //Display on TaskDialog
-            TaskDialog.Show("Revit", info);
+            // TaskDialog.Show("Revit", info);
+            Window window = new Window()
+            {
+                Title = "Results",
+                Content = new MellowWindow(app, getStairViewMapping(app))
+            };
 
-            Dictionary<ElementId, List<View>> stairViewMapping = getStairViewMapping(app);
+            window.Show();
         }
 
         // returns mapping of stair ID to list of views that contain it
-        private Dictionary<ElementId, List<View>> getStairViewMapping(UIApplication app)
+        private ObservableCollection<StairViewMapping> getStairViewMapping(UIApplication app)
         {
             // Get current active document
             UIDocument uiDoc = app.ActiveUIDocument;
 
-            Dictionary<ElementId, List<View>> stairViewMapping = new Dictionary<ElementId, List<View>>();
+            ObservableCollection<StairViewMapping> stairViewMapping = new ObservableCollection<StairViewMapping>();
 
             // Collector used to iterate through all views in document
             FilteredElementCollector viewCollector = new FilteredElementCollector(uiDoc.Document);
@@ -67,7 +75,7 @@ namespace DockablePane
                 Debug.WriteLine("---------------");
                 Debug.WriteLine("Stair ID: " + stair.Id);
 
-                List<View> containerViews = new List<View>();
+                ObservableCollection<ViewDetails> containerViews = new ObservableCollection<ViewDetails>();
 
                 // Iterate through all views to check if that view contains stair
                 foreach (View view in viewCollector)
@@ -80,7 +88,7 @@ namespace DockablePane
                         // If contains our stair ID, add to stair view mapping
                         if (elementsInView.ToElementIds().Contains(stair.Id))
                         {
-                            containerViews.Add(view);
+                            containerViews.Add(new ViewDetails { viewId = view.Id.ToString(), stairId = stair.Id.ToString() });
                             Debug.WriteLine("---");
                             Debug.WriteLine("View ID: " + view.Id);
                             Debug.WriteLine("View name: " + view.Name);
@@ -94,7 +102,7 @@ namespace DockablePane
                 }
 
                 // add to mapping before going to next stair
-                stairViewMapping[stair.Id] = containerViews;
+                stairViewMapping.Add(new StairViewMapping() { stairId = stair.Id.ToString(), viewIds = containerViews });
             }
 
             return stairViewMapping;

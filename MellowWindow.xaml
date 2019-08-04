@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="DockablePane.MellowWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DockablePane"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:NameMultiValueConverter x:Key="NameMultiValueConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <ListView VerticalAlignment="Top" Margin="0,0,0,0" BorderThickness="0" ClipToBounds="True" ItemsSource="{Binding stairViewMappings}">
+            <ListView.Resources>
+                <Style TargetType="GridViewColumnHeader">
+                    <Setter Property="FrameworkElement.Visibility" Value="Collapsed" />
+                </Style>
+            </ListView.Resources>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding stairId}"/>
+
+                        <ListView ItemsSource="{Binding viewIds}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding viewId}" MouseLeftButtonUp="OpenView">
+                                        <TextBlock.Tag>
+                                            <MultiBinding Converter="{StaticResource NameMultiValueConverter}">
+                                                <Binding Path="viewId"/>
+                                                <Binding Path="stairId"/>
+                                            </MultiBinding>
+                                        </TextBlock.Tag>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

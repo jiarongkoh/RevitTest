@@ -54,6 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GetElementsEvent.cs" />
+    <Compile Include="MellowWindow.xaml.cs">
+      <DependentUpon>MellowWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RegisterDockablePaneManager.cs" />
     <Compile Include="DockablePaneIdentifierManager.cs" />
     <Compile Include="LaunchDockablePaneCommand.cs" />
@@ -64,6 +67,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="MellowWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DockablePaneView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
