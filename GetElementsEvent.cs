@@ -47,7 +47,8 @@ namespace DockablePane
             Window window = new Window()
             {
                 Title = "Results",
-                Content = new MellowWindow(app, getStairViewMapping(app))
+                Content = new MellowWindow(app, getStairViewMapping(app)),
+                Width = 350, Height=450
             };
 
             window.Show();
@@ -88,7 +89,7 @@ namespace DockablePane
                         // If contains our stair ID, add to stair view mapping
                         if (elementsInView.ToElementIds().Contains(stair.Id))
                         {
-                            containerViews.Add(new ViewDetails { viewId = view.Id.ToString(), stairId = stair.Id.ToString() });
+                            containerViews.Add(new ViewDetails { viewId = view.Id.ToString(), stairId = stair.Id.ToString(), viewTitle = view.Title });
                             Debug.WriteLine("---");
                             Debug.WriteLine("View ID: " + view.Id);
                             Debug.WriteLine("View name: " + view.Name);

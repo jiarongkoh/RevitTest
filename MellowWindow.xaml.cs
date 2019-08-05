@@ -38,9 +38,9 @@ namespace DockablePane
             this.DataContext = this;
         }
 
-        private void OpenView(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OpenView(object sender, RoutedEventArgs e)
         {
-            TextBlock item = sender as TextBlock;
+            Button item = sender as Button;
             if (item != null)
             {
                 String stairIdString = item.Tag.ToString().Split(null)[1];
@@ -60,7 +60,7 @@ namespace DockablePane
         public String stairId { get; set; }
 
         public ObservableCollection<ViewDetails> viewIds { get; set; }
-
+        
         public override string ToString()
         {
             return stairId.ToString();
@@ -71,6 +71,7 @@ namespace DockablePane
     {
         public String viewId { get; set; }
         public String stairId { get; set; }
+        public String viewTitle { get; set; }
     }
 
     public class NameMultiValueConverter : IMultiValueConverter
