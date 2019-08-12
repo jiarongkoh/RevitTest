@@ -9,6 +9,9 @@ using Autodesk.Revit.Attributes;
 using System.Collections.Generic;
 using Autodesk.Revit.DB.Architecture;
 
+using System.Collections.ObjectModel;
+using System.Windows;
+
 namespace DockablePane
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
@@ -23,30 +26,87 @@ namespace DockablePane
             //Get all elements in active document
             //https://thebuildingcoder.typepad.com/blog/2010/06/filter-for-all-elements.html
             FilteredElementCollector coll = new FilteredElementCollector(uiDoc.Document);
-            coll.WherePasses(new LogicalOrFilter(
-                                new ElementIsElementTypeFilter(false),
-                                new ElementIsElementTypeFilter(true)));
+            coll.OfClass(typeof(Stairs));
 
             //Setup info string to append text to display on TaskDialog
             String info = "Ids of selected elements in the document are: ";
 
-            foreach (Element e in coll)
+            foreach (Stairs s in coll)
             {
-                //Extract just Stairs
-                if (e.Name == "Stair")
-                {
-                    info += "\n\t" + e.Name + " " + e.Id;
+                info += "\n\t" + s.Name + " " + s.Id;
 
-                    //Cast as Stairs object
-                    Stairs stair = uiDoc.Document.GetElement(e.Id) as Stairs;
+                //Cast as Stairs object
+                Stairs stair = uiDoc.Document.GetElement(s.Id) as Stairs;
 
-                    info += "\n\t" + "Number of steps: " + stair.ActualRisersNumber.ToString();
-                    info += "\n\t";
-                }
+                info += "\n\t" + "Number of steps: " + stair.ActualRisersNumber.ToString();
+                info += "\n\t";
             }
 
             //Display on TaskDialog
-            TaskDialog.Show("Revit", info);
+            // TaskDialog.Show("Revit", info);
+            Window window = new Window()
+            {
+                Title = "Results",
+                Content = new MellowWindow(app, getStairViewMapping(app)),
+                Width = 350, Height=450
+            };
+
+            window.Show();
+        }
+
+        // returns mapping of stair ID to list of views that contain it
+        private ObservableCollection<StairViewMapping> getStairViewMapping(UIApplication app)
+        {
+            // Get current active document
+            UIDocument uiDoc = app.ActiveUIDocument;
+
+            ObservableCollection<StairViewMapping> stairViewMapping = new ObservableCollection<StairViewMapping>();
+
+            // Collector used to iterate through all views in document
+            FilteredElementCollector viewCollector = new FilteredElementCollector(uiDoc.Document);
+            viewCollector.OfClass(typeof(View));
+
+            // Collector used to iterate through all stairs in document
+            FilteredElementCollector stairCollector = new FilteredElementCollector(uiDoc.Document);
+            stairCollector.OfClass(typeof(Stairs));
+
+            // First iterate through all stairs
+            foreach (Stairs stair in stairCollector)
+            {
+                Debug.WriteLine("---------------");
+                Debug.WriteLine("Stair ID: " + stair.Id);
+
+                ObservableCollection<ViewDetails> containerViews = new ObservableCollection<ViewDetails>();
+
+                // Iterate through all views to check if that view contains stair
+                foreach (View view in viewCollector)
+                {
+                    // Get all element ids in that view
+                    try
+                    {
+                        FilteredElementCollector elementsInView = new FilteredElementCollector(uiDoc.Document, view.Id);
+
+                        // If contains our stair ID, add to stair view mapping
+                        if (elementsInView.ToElementIds().Contains(stair.Id))
+                        {
+                            containerViews.Add(new ViewDetails { viewId = view.Id.ToString(), stairId = stair.Id.ToString(), viewTitle = view.Title });
+                            Debug.WriteLine("---");
+                            Debug.WriteLine("View ID: " + view.Id);
+                            Debug.WriteLine("View name: " + view.Name);
+                            Debug.WriteLine("---");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e);
+                    }
+                }
+
+                // add to mapping before going to next stair
+                stairViewMapping.Add(new StairViewMapping() { stairId = stair.Id.ToString(), viewIds = containerViews });
+            }
+
+            return stairViewMapping;
         }
 
         public string GetName()
